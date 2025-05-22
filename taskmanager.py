@@ -27,7 +27,7 @@ def mark_complete():
             if current_selection < 0 or current_selection >= len(task_list):
                 print('You entered an invalid number, try again.')
             else:
-                sure = input(f'Are you sure to mark this task complete: {task_list[current_selection]}').lower().strip()
+                sure = input(f'Are you sure to mark this task complete: {task_list[current_selection].task_name}').lower().strip()
                 if sure.startswith('y'):
                     task_list[current_selection].status = 'Completed'
                     print('Task successfully completed!')
