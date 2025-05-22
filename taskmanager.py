@@ -51,16 +51,16 @@ def remove_task():
     else: 
         try:         
             for i, task in enumerate(task_list, start=1):
-                print(f'{i}. {task}')
-            delete_selection = int(input('Choose which task you want to delete by its number: ')).strip()
+                print(f'{i}. {task} \n')
+            delete_selection = int(input('Choose which task you want to delete by its number: '))
             if delete_selection - 1 < 0 or delete_selection - 1 >= len(task_list):
                 print('Please enter a valid number.')
             else:          
-                sure = input(f'Are you sure to delete this task: {task_list[delete_selection - 1]}').lower().strip()
+                sure = input(f'Are you sure to delete this task (y/n): {task_list[delete_selection - 1].task_name}').lower().strip()
                 if sure.startswith('y'):
                     del task_list[delete_selection - 1]
                     print('Task successfully deleted!')
-                elif sure.startswith('n'):
+                elif sure.startswith('n') or sure == 'cancel':
                     print('Operation cancelled.')
         except ValueError:
             print('Please enter a valid number.')
@@ -84,6 +84,7 @@ del - to delete a task
 mark - to mark a task complete
 view - to view your current tasks
 clear - to clear the terminal
+cancel - to cancel any operation you are in
 ''')
     elif user_command == 'add':
         add_task()
@@ -97,19 +98,3 @@ clear - to clear the terminal
         view_task()
     else:
         print('I do not understand that, please try something else.')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
