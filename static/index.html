@@ -1,0 +1,28 @@
+<!-- static/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Task Manager</h1>
+<div id="warning">This is a prototype. Your tasks can be seen by others.</div>
+  <form id="taskForm">
+    <input type="text" id="taskName" placeholder="Task name" required />
+    <input type="text" id="deadline" placeholder="Deadline (optional)" />
+    <button type="submit">Add Task</button>
+  </form>
+
+  <ul id="taskList"></ul>
+
+  
+
+<div id="author">Made by Uğur Baştuğ</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
