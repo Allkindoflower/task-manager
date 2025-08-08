@@ -15,12 +15,6 @@ Quickly add tasks with deadlines and priorities, mark them done, or delete — a
 - Persistent storage with SQLite database  
 - Responsive and clean UI with dark theme  
 
----
-
-## Demo
-
-![Screenshot of the app](./screenshot.png)  
-*(Add your own screenshot here)*
 
 ---
 
