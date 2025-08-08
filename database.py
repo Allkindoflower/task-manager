@@ -15,54 +15,67 @@ def create_table():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             deadline TEXT,
-            status INTEGER DEFAULT 0
+            status INTEGER DEFAULT 0,
+            user_id TEXT,
+            priority INTEGER DEFAULT 2  
         )
     ''')
     conn.commit()
     conn.close()
 
-def get_tasks_db():
+
+def get_tasks_db(user_id: str):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT id, name, deadline, status FROM tasks')
+    cursor.execute('SELECT id, name, deadline, status, priority FROM tasks WHERE user_id = ?', (user_id,))
     rows = cursor.fetchall()
     conn.close()
     return rows
 
-def add_task_db(name, deadline=None):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO tasks (name, deadline) VALUES (?, ?)', (name, deadline))
-    conn.commit()
-    conn.close()
-    return cursor.lastrowid
 
-def delete_task_db(task_id):
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM tasks WHERE id = ?', (task_id,))
-    conn.commit()
-    conn.close()
-    return cursor.rowcount > 0
+def add_task_db(name, deadline, user_id, priority=2):
+    # Convert Priority enum or class to int
+    if hasattr(priority, 'value'):  # Enum
+        priority_int = priority.value
+    else:
+        priority_int = priority  # assume int
 
-def toggle_task_status_db(task_id):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT status FROM tasks WHERE id = ?", (task_id,))
+    cursor.execute(
+        'INSERT INTO tasks (name, deadline, user_id, priority) VALUES (?, ?, ?, ?)',
+        (name, deadline, user_id, priority_int)
+    )
+    conn.commit()
+    last_id = cursor.lastrowid
+    conn.close()
+    return last_id
+
+
+
+
+def delete_task_db(task_id, user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM tasks WHERE id = ? AND user_id = ?', (task_id, user_id))
+    conn.commit()
+    rowcount = cursor.rowcount
+    conn.close()
+    return rowcount > 0
+
+def toggle_task_status_db(task_id, user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT status FROM tasks WHERE id = ? AND user_id = ?', (task_id, user_id))
     row = cursor.fetchone()
     if not row:
         conn.close()
         return False
-    
-    if row['status'] == 0:
-        new_status = 1
-    else:
-        new_status = 0
 
-    cursor.execute("UPDATE tasks SET status = ? WHERE id = ?", (new_status, task_id))
+    new_status = 0 if row['status'] else 1
+    cursor.execute('UPDATE tasks SET status = ? WHERE id = ? AND user_id = ?', (new_status, task_id, user_id))
     conn.commit()
     conn.close()
     return True
-
 
 create_table()

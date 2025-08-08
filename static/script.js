@@ -4,39 +4,50 @@ if (!userId) {
   localStorage.setItem('user_id', userId);
 }
 
-
 async function fetchTasks() {
-  const res = await fetch('/tasks');
+  const res = await fetch('/tasks', {
+    headers: { 'X-User-ID': userId }
+  });
   const tasks = await res.json();
 
   const list = document.getElementById('taskList');
   list.innerHTML = '';
 
-  tasks.forEach(task => {
-    const item = document.createElement('li');
-    item.className = task.status ? 'completed' : '';
+  const priorityLabels = {
+  1: 'Low',
+  2: 'Medium',
+  3: 'High'
+};
 
-    item.innerHTML = `
-      <div class="task-info">
-        <strong>${task.name}</strong> 
-        <small>Deadline: ${task.deadline || 'None'}</small>
-      </div>
-      <div>
-        <button class="complete-btn" data-id="${task.id}">
-          ${task.status ? 'Done' : 'Incomplete'}
-        </button>
-        <button class="delete-btn" data-id="${task.id}">Delete</button>
-      </div>
-    `;
+tasks.forEach(task => {
+  const item = document.createElement('li');
+  item.className = task.status ? 'completed' : '';
 
-    list.appendChild(item);
-  });
+  item.innerHTML = `
+    <div class="task-info">
+      <strong>${task.name}</strong> 
+      <small>Deadline: ${task.deadline || 'None'}</small>
+      <small>Priority: <span class="priority-label priority-${task.priority}">${priorityLabels[task.priority] || 'Medium'}</span></small>
+    </div>
+    <div>
+      <button class="complete-btn" data-id="${task.id}">
+        ${task.status ? 'Done' : 'Incomplete'}
+      </button>
+      <button class="delete-btn" data-id="${task.id}">Delete</button>
+    </div>
+  `;
 
-  // Attach event listeners AFTER list is built
+  list.appendChild(item);
+});
+
+
   document.querySelectorAll('.complete-btn').forEach(button => {
     button.addEventListener('click', async () => {
       const id = button.getAttribute('data-id');
-      await fetch(`/tasks/${id}/toggle`, { method: 'PATCH' });
+      await fetch(`/tasks/${id}/toggle`, { 
+        method: 'PATCH',
+        headers: { 'X-User-ID': userId }
+      });
       fetchTasks();
     });
   });
@@ -44,11 +55,25 @@ async function fetchTasks() {
   document.querySelectorAll('.delete-btn').forEach(button => {
     button.addEventListener('click', async () => {
       const id = button.getAttribute('data-id');
-      await fetch(`/tasks/${id}`, { method: 'DELETE' });
+      await fetch(`/tasks/${id}`, { 
+        method: 'DELETE',
+        headers: { 'X-User-ID': userId }
+      });
       fetchTasks();
     });
   });
 }
+
+const priorityBoxes = document.querySelectorAll('.priority-box');
+let selectedPriority = 2;
+
+priorityBoxes.forEach(box => {
+  box.addEventListener('click', () => {
+    priorityBoxes.forEach(b => b.classList.remove('selected'));
+    box.classList.add('selected');
+    selectedPriority = parseInt(box.getAttribute('data-value'), 10);
+  });
+});
 
 document.getElementById('taskForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -58,12 +83,23 @@ document.getElementById('taskForm').addEventListener('submit', async e => {
 
   await fetch('/tasks', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, deadline })
+    headers: { 
+      'Content-Type': 'application/json',
+      'X-User-ID': userId
+    },
+    body: JSON.stringify({ name, deadline, priority: selectedPriority })
   });
 
   document.getElementById('taskForm').reset();
+
+  // Reset priority selection to medium (box 2)
+  priorityBoxes.forEach(b => b.classList.remove('selected'));
+  priorityBoxes[1].classList.add('selected');
+  selectedPriority = 2;
+
   fetchTasks();
 });
+
+
 
 fetchTasks();
