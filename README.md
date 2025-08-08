@@ -1,66 +1,29 @@
 # Task Manager
 
-A simple web app to add tasks with deadlines and priorities, mark them done, or delete them.  
-Built with FastAPI, SQLite, and vanilla JavaScript.
+Add tasks with deadlines and priority. Mark done or delete.
 
----
+## How to run
 
-## Features
+1. Clone repo  
+2. Create & activate Python venv  
+3. Install requirements: `pip install -r requirements.txt`  
 
-- Add tasks with optional deadlines  
-- Choose priority (Low, Medium, High) before adding  
-- Mark tasks complete/incomplete  
-- Delete tasks  
-- User-specific tasks saved via browser localStorage ID  
-- Data stored in SQLite database  
+Start server: uvicorn main:app --reload
 
----
+Open browser: http://localhost:8000
 
-## Setup
+Features
+Add task name + optional deadline
 
-1. Clone the repo:
+Select priority (Low, Medium, High)
 
-   ```bash
-   git clone https://github.com/yourusername/task-manager.git
-   cd task-manager
-Create and activate a virtual environment:
+Toggle done/undone
 
-bash
-Copy
-Edit
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-Install dependencies:
+Delete task
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Initialize the database:
+User tasks saved by browser ID
 
-bash
-Copy
-Edit
-python
->>> from database import create_table
->>> create_table()
->>> exit()
-Run the app:
-
-bash
-Copy
-Edit
-uvicorn main:app --reload
-Open http://localhost:8000 in your browser.
-
-Usage
-Enter task name and deadline (optional)
-
-Select priority by clicking one of the boxes (default is Medium)
-
-Click Add Task
-
-Manage tasks in the list: toggle done, delete
+Data stored in SQLite
 
 License
 MIT © Uğur Baştuğ
