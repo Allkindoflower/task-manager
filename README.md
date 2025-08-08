@@ -1,71 +1,109 @@
-Task Manager App
-This is a simple task manager application built with FastAPI and SQLite. It lets you create, view, complete, and delete tasks with deadlines, all through a clean web interface. The project started as a CLI app and evolved into a full web app — a nice way to practice building backend APIs and connecting them with a frontend.
+# Task Manager
 
-Features
-Add tasks with optional deadlines
+A simple task manager web app built with FastAPI, SQLite, and vanilla JavaScript.  
+Quickly add tasks with deadlines and priorities, mark them done, or delete — all in one place.
 
-Mark tasks as done or incomplete
+---
 
-Delete tasks you no longer need
+## Features
 
-Tasks are saved in an SQLite database
+- Add tasks with optional deadlines  
+- Set task priority (Low, Medium, High) via an intuitive toggle UI  
+- Mark tasks as complete or incomplete  
+- Delete tasks  
+- Tasks are stored per user using localStorage-based user ID  
+- Persistent storage with SQLite database  
+- Responsive and clean UI with dark theme  
 
-Simple and clean UI with responsive buttons
+---
 
-Status indicators in green (Done) and red (Incomplete)
+## Demo
 
-Modern black and gold theme for a sleek look
+![Screenshot of the app](./screenshot.png)  
+*(Add your own screenshot here)*
 
-How to Use
-Run the FastAPI backend (main.py) — it handles all database interactions and serves the API.
+---
 
-Open the frontend in your browser (served from the static folder).
+## Getting Started
 
-Add tasks, mark them complete/incomplete, or delete them right from the interface.
+### Prerequisites
 
-The task list updates instantly after every change.
+- Python 3.8+  
+- pip package manager
 
-Tech Stack
-Python 3 with FastAPI (backend API)
+### Installation
 
-SQLite (simple, file-based database)
+1. Clone this repository:
 
-Vanilla JavaScript for frontend interactions
+   ```bash
+   git clone https://github.com/yourusername/task-manager.git
+   cd task-manager
+Create and activate a virtual environment:
 
-HTML & CSS with a black/gold color scheme
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+Install dependencies:
 
-Jinja2 only if you want to serve templates dynamically (optional)
+bash
+Copy
+Edit
+pip install -r requirements.txt
+Initialize the database:
 
-Why This Project?
-I built this to sharpen my skills building full-stack apps and practice clean API design. It’s also a stepping stone to more complex projects involving user management, authentication, and personalized data. It started as a CLI project, then transitioned to a modern web app — so I got to learn both paradigms.
+bash
+Copy
+Edit
+python
+>>> from database import create_table
+>>> create_table()
+>>> exit()
+Running the App
+Start the FastAPI server:
 
-How I Built It
-Started with a simple CLI app managing tasks locally with SQLite
+bash
+Copy
+Edit
+uvicorn main:app --reload
+Open your browser and go to http://localhost:8000
 
-Refactored database code to be reusable by FastAPI routes
+Project Structure
+graphql
+Copy
+Edit
+.
+├── main.py           # FastAPI app and routes
+├── database.py       # SQLite database access and schema
+├── models.py         # Pydantic models
+├── static/
+│   ├── index.html    # Frontend HTML
+│   ├── script.js     # Frontend JS
+│   └── style.css     # CSS styles
+├── requirements.txt  # Python dependencies
+└── README.md         # This file
+Usage
+Enter a task name
 
-Built RESTful API endpoints to add/view/delete/toggle tasks
+(Optional) Enter a deadline
 
-Created a responsive frontend that talks to the API with fetch requests
+Select a priority by clicking one of the priority boxes (Low / Medium / High)
 
-Styled the interface with a consistent black and gold theme for readability and mood
+Click Add Task
 
-What’s Next?
-Add user authentication to separate data per user
+Tasks appear in the list with colored priority labels
 
-Improve error handling and input validation
+Use Done/Incomplete button to toggle status
 
-Deploy it so it can be accessed anywhere
+Use Delete button to remove a task
 
-Add filtering and sorting options
+Notes
+Tasks are associated with a user ID stored in the browser’s localStorage
 
-How to Run Locally
-Clone the repo
+The app is a prototype and does not implement authentication
 
-Create a virtual environment and install dependencies (FastAPI, uvicorn)
+All data is stored locally on the server in a SQLite database
 
-Run python main.py to start the backend server
-
-Open your browser to http://localhost:8000
-
-Enjoy managing your tasks
+License
+MIT License © Uğur Baştuğ
