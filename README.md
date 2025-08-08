@@ -1,33 +1,24 @@
 # Task Manager
 
-A simple task manager web app built with FastAPI, SQLite, and vanilla JavaScript.  
-Quickly add tasks with deadlines and priorities, mark them done, or delete — all in one place.
+A simple web app to add tasks with deadlines and priorities, mark them done, or delete them.  
+Built with FastAPI, SQLite, and vanilla JavaScript.
 
 ---
 
 ## Features
 
 - Add tasks with optional deadlines  
-- Set task priority (Low, Medium, High) via an intuitive toggle UI  
-- Mark tasks as complete or incomplete  
+- Choose priority (Low, Medium, High) before adding  
+- Mark tasks complete/incomplete  
 - Delete tasks  
-- Tasks are stored per user using localStorage-based user ID  
-- Persistent storage with SQLite database  
-- Responsive and clean UI with dark theme  
-
+- User-specific tasks saved via browser localStorage ID  
+- Data stored in SQLite database  
 
 ---
 
-## Getting Started
+## Setup
 
-### Prerequisites
-
-- Python 3.8+  
-- pip package manager
-
-### Installation
-
-1. Clone this repository:
+1. Clone the repo:
 
    ```bash
    git clone https://github.com/yourusername/task-manager.git
@@ -38,7 +29,7 @@ bash
 Copy
 Edit
 python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+source venv/bin/activate   # Windows: venv\Scripts\activate
 Install dependencies:
 
 bash
@@ -54,50 +45,22 @@ python
 >>> from database import create_table
 >>> create_table()
 >>> exit()
-Running the App
-Start the FastAPI server:
+Run the app:
 
 bash
 Copy
 Edit
 uvicorn main:app --reload
-Open your browser and go to http://localhost:8000
+Open http://localhost:8000 in your browser.
 
-Project Structure
-graphql
-Copy
-Edit
-.
-├── main.py           # FastAPI app and routes
-├── database.py       # SQLite database access and schema
-├── models.py         # Pydantic models
-├── static/
-│   ├── index.html    # Frontend HTML
-│   ├── script.js     # Frontend JS
-│   └── style.css     # CSS styles
-├── requirements.txt  # Python dependencies
-└── README.md         # This file
 Usage
-Enter a task name
+Enter task name and deadline (optional)
 
-(Optional) Enter a deadline
-
-Select a priority by clicking one of the priority boxes (Low / Medium / High)
+Select priority by clicking one of the boxes (default is Medium)
 
 Click Add Task
 
-Tasks appear in the list with colored priority labels
-
-Use Done/Incomplete button to toggle status
-
-Use Delete button to remove a task
-
-Notes
-Tasks are associated with a user ID stored in the browser’s localStorage
-
-The app is a prototype and does not implement authentication
-
-All data is stored locally on the server in a SQLite database
+Manage tasks in the list: toggle done, delete
 
 License
-MIT License © Uğur Baştuğ
+MIT © Uğur Baştuğ
