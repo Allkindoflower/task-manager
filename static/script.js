@@ -92,7 +92,7 @@ document.getElementById('taskForm').addEventListener('submit', async e => {
 
   document.getElementById('taskForm').reset();
 
-  // Reset priority selection to medium (box 2)
+
   priorityBoxes.forEach(b => b.classList.remove('selected'));
   priorityBoxes[1].classList.add('selected');
   selectedPriority = 2;

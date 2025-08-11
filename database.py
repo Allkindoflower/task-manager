@@ -1,9 +1,23 @@
 import sqlite3
+from datetime import date
 
 DB_FILE = 'tasks.db'
 
+# Adapter: Python date -> ISO string (for SQLite storage)
+def adapt_date(date_obj):
+    return date_obj.isoformat()
+
+# Converter: SQLite stored string -> Python date object
+def convert_date(date_bytes):
+    return date.fromisoformat(date_bytes.decode())
+
+# Register adapter and converter once at module load
+sqlite3.register_adapter(date, adapt_date)
+sqlite3.register_converter("DATE", convert_date)
+
 def get_connection():
-    conn = sqlite3.connect(DB_FILE)
+    # Enable type detection for converters
+    conn = sqlite3.connect(DB_FILE, detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -14,7 +28,7 @@ def create_table():
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            deadline TEXT,
+            deadline DATE,               -- Changed from TEXT to DATE
             status INTEGER DEFAULT 0,
             user_id TEXT,
             priority INTEGER DEFAULT 2  
@@ -23,22 +37,25 @@ def create_table():
     conn.commit()
     conn.close()
 
-
 def get_tasks_db(user_id: str):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT id, name, deadline, status, priority FROM tasks WHERE user_id = ?', (user_id,))
     rows = cursor.fetchall()
     conn.close()
-    return rows
 
+    tasks = []
+    for row in rows:
+        task = dict(row)
+        tasks.append(task)
+
+    return tasks
 
 def add_task_db(name, deadline, user_id, priority=2):
-    # Convert Priority enum or class to int
     if hasattr(priority, 'value'):  # Enum
         priority_int = priority.value
     else:
-        priority_int = priority  # assume int
+        priority_int = priority
 
     conn = get_connection()
     cursor = conn.cursor()
@@ -50,9 +67,6 @@ def add_task_db(name, deadline, user_id, priority=2):
     last_id = cursor.lastrowid
     conn.close()
     return last_id
-
-
-
 
 def delete_task_db(task_id, user_id):
     conn = get_connection()

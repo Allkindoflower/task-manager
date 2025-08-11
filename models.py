@@ -1,14 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
-from enum import Enum
+from datetime import date
+from enum import IntEnum
 
-
-class Priority(Enum):
-    LOW = 1
-    MEDIUM = 2
-    HIGH = 3
+class Priority(IntEnum):
+    low = 1
+    medium = 2
+    high = 3
 
 class AddedTask(BaseModel):
-    name: str
-    deadline: Optional[str] = None
-    priority: Priority = Priority.MEDIUM
+    name: str = Field(..., max_length=100, min_length=1)
+    deadline: Optional[date] = None
+    priority: Priority = Priority.medium
+

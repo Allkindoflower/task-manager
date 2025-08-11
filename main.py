@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Header, HTTPException
 from database import get_tasks_db, add_task_db, delete_task_db, toggle_task_status_db
 from fastapi.staticfiles import StaticFiles
-from models import AddedTask, Priority
+from models import AddedTask
 
 app = FastAPI()
 
@@ -10,7 +10,8 @@ app = FastAPI()
 @app.get("/tasks")
 def read_tasks(user_id: str = Header(..., alias="X-User-ID")):
     tasks = get_tasks_db(user_id)
-    return [dict(task) for task in tasks]
+    return tasks
+
 
 @app.post("/tasks")
 def create_task(task: AddedTask, user_id: str = Header(..., alias="X-User-ID")):
