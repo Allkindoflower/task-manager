@@ -1,14 +1,15 @@
 :root {
-  --bg: #121212;
-  --card-bg: #1e1e2f;
-  --text-primary: #e0e0e0;
-  --text-secondary: #a0a0b8;
-  --accent-1: #ff3c78;
-  --accent-2: #00ffe7;
-  --accent-3: #ffb300;
-  --border: #33334a;
-  --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --bg: #0d0c0c;
+  --card-bg: #1a1a1f; 
+  --text-primary: #e4d8b4; 
+  --text-secondary: #b3a77a; 
+  --accent-1: #b33a3a; 
+  --accent-2: #4fb0c6; 
+  --accent-3: #d4af37; 
+  --border: #3a3222;
+  --font: "Cinzel", serif; 
 }
+
 
 * {
   box-sizing: border-box;

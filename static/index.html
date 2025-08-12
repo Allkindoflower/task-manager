@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Task Manager</title>
+  <title>Quest Manager</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Task Manager</h1>
-  <p id="explanation">Quickly add tasks, set deadlines, mark them done, or delete — all in one place.</p>
+  <h1>Quest Manager</h1>
+  <p id="explanation">Quickly add quests(tasks), set deadlines, complete or delete them — all in one place.</p>
 
-<div id="warning">This is a prototype. Your tasks can be seen by others.</div>
   <form id="taskForm">
-  <input type="text" id="taskName" placeholder="Task name" required />
+  <input type="text" id="taskName" placeholder="Quest name" required />
   <input type="text" id="deadline" placeholder="Deadline (optional)" />
+
+  <label for="prioritySelector" style="font-weight: 700; margin-top: 1rem; margin-bottom: 0.3rem; display: block;">
+    Choose the quest priority:
+  </label>
 
   <div id="prioritySelector" style="display: flex; gap: 1rem; margin-top: 0.5rem;">
     <div class="priority-box" data-value="1">Low</div>
@@ -21,7 +25,7 @@
     <div class="priority-box" data-value="3">High</div>
   </div>
 
-  <button type="submit">Add Task</button>
+  <button type="submit">Add Quest</button>
 </form>
 
 <ul id="taskList"></ul>
@@ -30,7 +34,7 @@
   <ul id="taskList"></ul>
 
 
-<div id="author">Crafted with care by Uğur Baştuğ</div>
+<div id="author">Forged with care by Uğur Baştuğ</div>
 
 <script src="script.js"></script>
 

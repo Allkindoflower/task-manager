@@ -1,3 +1,4 @@
+// Get or create user_id and store in localStorage
 let userId = localStorage.getItem('user_id');
 if (!userId) {
   userId = crypto.randomUUID();
@@ -14,33 +15,33 @@ async function fetchTasks() {
   list.innerHTML = '';
 
   const priorityLabels = {
-  1: 'Low',
-  2: 'Medium',
-  3: 'High'
-};
+    1: 'Low',
+    2: 'Medium',
+    3: 'High'
+  };
 
-tasks.forEach(task => {
-  const item = document.createElement('li');
-  item.className = task.status ? 'completed' : '';
+  tasks.forEach(task => {
+    const item = document.createElement('li');
+    item.className = task.status ? 'completed' : '';
 
-  item.innerHTML = `
-    <div class="task-info">
-      <strong>${task.name}</strong> 
-      <small>Deadline: ${task.deadline || 'None'}</small>
-      <small>Priority: <span class="priority-label priority-${task.priority}">${priorityLabels[task.priority] || 'Medium'}</span></small>
-    </div>
-    <div>
-      <button class="complete-btn" data-id="${task.id}">
-        ${task.status ? 'Done' : 'Incomplete'}
-      </button>
-      <button class="delete-btn" data-id="${task.id}">Delete</button>
-    </div>
-  `;
+    item.innerHTML = `
+      <div class="task-info">
+        <strong>${task.name}</strong> 
+        <small>Deadline: ${task.deadline || 'None'}</small>
+        <small>Priority: <span class="priority-label priority-${task.priority}">${priorityLabels[task.priority] || 'Medium'}</span></small>
+      </div>
+      <div>
+        <button class="complete-btn" data-id="${task.id}">
+          ${task.status ? 'Done' : 'Incomplete'}
+        </button>
+        <button class="delete-btn" data-id="${task.id}">Delete</button>
+      </div>
+    `;
 
-  list.appendChild(item);
-});
+    list.appendChild(item);
+  });
 
-
+  // Add event listeners for the newly created buttons
   document.querySelectorAll('.complete-btn').forEach(button => {
     button.addEventListener('click', async () => {
       const id = button.getAttribute('data-id');
@@ -67,6 +68,10 @@ tasks.forEach(task => {
 const priorityBoxes = document.querySelectorAll('.priority-box');
 let selectedPriority = 2;
 
+// Set initial selected priority
+priorityBoxes.forEach(b => b.classList.remove('selected'));
+priorityBoxes[1].classList.add('selected');
+
 priorityBoxes.forEach(box => {
   box.addEventListener('click', () => {
     priorityBoxes.forEach(b => b.classList.remove('selected'));
@@ -78,8 +83,13 @@ priorityBoxes.forEach(box => {
 document.getElementById('taskForm').addEventListener('submit', async e => {
   e.preventDefault();
 
-  const name = document.getElementById('taskName').value;
+  const name = document.getElementById('taskName').value.trim();
   const deadline = document.getElementById('deadline').value;
+
+  if (!name) {
+    alert('Please enter a task name.');
+    return;
+  }
 
   await fetch('/tasks', {
     method: 'POST',
@@ -92,7 +102,7 @@ document.getElementById('taskForm').addEventListener('submit', async e => {
 
   document.getElementById('taskForm').reset();
 
-
+  // Reset priority selection
   priorityBoxes.forEach(b => b.classList.remove('selected'));
   priorityBoxes[1].classList.add('selected');
   selectedPriority = 2;
@@ -100,6 +110,5 @@ document.getElementById('taskForm').addEventListener('submit', async e => {
   fetchTasks();
 });
 
-
-
+// Initial fetch of tasks when page loads
 fetchTasks();

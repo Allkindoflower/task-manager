@@ -10,6 +10,6 @@ class Priority(IntEnum):
 
 class AddedTask(BaseModel):
     name: str = Field(..., max_length=100, min_length=1)
-    deadline: Optional[date] = None
+    deadline: Optional[str] = None
     priority: Priority = Priority.medium
 
