@@ -5,6 +5,13 @@ if (!userId) {
   localStorage.setItem('user_id', userId);
 }
 
+// Elements for confirmation popup
+const confirmPopup = document.getElementById('confirm-popup');
+const confirmYes = document.getElementById('confirm-yes');
+const confirmNo = document.getElementById('confirm-no');
+let taskIdToDelete = null;
+
+// Fetch and render tasks
 async function fetchTasks() {
   const res = await fetch('/tasks', {
     headers: { 'X-User-ID': userId }
@@ -40,31 +47,44 @@ async function fetchTasks() {
 
     list.appendChild(item);
   });
-
-  // Add event listeners for the newly created buttons
-  document.querySelectorAll('.complete-btn').forEach(button => {
-    button.addEventListener('click', async () => {
-      const id = button.getAttribute('data-id');
-      await fetch(`/tasks/${id}/toggle`, { 
-        method: 'PATCH',
-        headers: { 'X-User-ID': userId }
-      });
-      fetchTasks();
-    });
-  });
-
-  document.querySelectorAll('.delete-btn').forEach(button => {
-    button.addEventListener('click', async () => {
-      const id = button.getAttribute('data-id');
-      await fetch(`/tasks/${id}`, { 
-        method: 'DELETE',
-        headers: { 'X-User-ID': userId }
-      });
-      fetchTasks();
-    });
-  });
 }
 
+// Event delegation for complete/delete buttons
+document.getElementById('taskList').addEventListener('click', async (e) => {
+  if (e.target.classList.contains('complete-btn')) {
+    const id = e.target.getAttribute('data-id');
+    await fetch(`/tasks/${id}/toggle`, { 
+      method: 'PATCH',
+      headers: { 'X-User-ID': userId }
+    });
+    fetchTasks();
+  }
+
+  if (e.target.classList.contains('delete-btn')) {
+    taskIdToDelete = e.target.getAttribute('data-id');
+    confirmPopup.classList.remove('hidden');
+  }
+});
+
+// Confirmation popup actions
+confirmYes.addEventListener('click', async () => {
+  if (taskIdToDelete) {
+    await fetch(`/tasks/${taskIdToDelete}`, { 
+      method: 'DELETE',
+      headers: { 'X-User-ID': userId }
+    });
+    taskIdToDelete = null;
+    confirmPopup.classList.add('hidden');
+    fetchTasks();
+  }
+});
+
+confirmNo.addEventListener('click', () => {
+  taskIdToDelete = null;
+  confirmPopup.classList.add('hidden');
+});
+
+// Priority selection
 const priorityBoxes = document.querySelectorAll('.priority-box');
 let selectedPriority = 2;
 
@@ -80,6 +100,7 @@ priorityBoxes.forEach(box => {
   });
 });
 
+// Form submission
 document.getElementById('taskForm').addEventListener('submit', async e => {
   e.preventDefault();
 
