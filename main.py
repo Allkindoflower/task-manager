@@ -1,23 +1,25 @@
 from fastapi import FastAPI, Header, HTTPException
-from database import get_tasks_db, add_task_db, delete_task_db, toggle_task_status_db
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from database import get_tasks_db, add_task_db, delete_task_db, toggle_task_status_db
 from models import AddedTask
 
 app = FastAPI()
 
-#TODO- add deletion confirmation popup in frontend
+
+@app.get("/")
+def home():
+    return FileResponse("static/index.html")
 
 @app.get("/tasks")
 def read_tasks(user_id: str = Header(..., alias="X-User-ID")):
     tasks = get_tasks_db(user_id)
     return tasks
 
-
 @app.post("/tasks")
 def create_task(task: AddedTask, user_id: str = Header(..., alias="X-User-ID")):
     task_id = add_task_db(task.name, task.deadline, user_id, task.priority)
     return {"id": task_id, "name": task.name, "deadline": task.deadline, "status": False, "priority": task.priority}
-
 
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: int, user_id: str = Header(..., alias="X-User-ID")):
@@ -33,4 +35,4 @@ def toggle_task_status(task_id: int, user_id: str = Header(..., alias="X-User-ID
         return {"message": "Status toggled"}
     raise HTTPException(status_code=404, detail="Task not found")
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
