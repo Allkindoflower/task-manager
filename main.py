@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from database import get_tasks_db, add_task_db, delete_task_db, toggle_task_status_db
+from database import get_tasks_db, add_task_db, delete_task_db, toggle_task_status_db, BASE_DIR
 from models import AddedTask
 import os
 
+
 app = FastAPI()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @app.get("/")
 def home():

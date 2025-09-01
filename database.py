@@ -3,19 +3,10 @@ from datetime import date
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 DB_FILE = os.path.join(BASE_DIR, "tasks.db")
 
-# Adapter: Python date -> ISO string (for SQLite storage)
-def adapt_date(date_obj):
-    return date_obj.isoformat()
 
-# Converter: SQLite stored string -> Python date object
-def convert_date(date_bytes):
-    return date.fromisoformat(date_bytes.decode())
-
-# Register adapter and converter once at module load
-sqlite3.register_adapter(date, adapt_date)
-sqlite3.register_converter("DATE", convert_date)
 
 def get_connection():
     # Enable type detection for converters
@@ -49,8 +40,6 @@ def get_tasks_db(user_id: str):
     tasks = []
     for row in rows:
         task = dict(row)
-        if isinstance(task["deadline"], date):
-            task["deadline"] = task["deadline"].isoformat()
         tasks.append(task)
 
     return tasks
@@ -64,9 +53,10 @@ def add_task_db(name, deadline, user_id, priority=2):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        'INSERT INTO tasks (name, deadline, user_id, priority) VALUES (?, ?, ?, ?)',
-        (name, deadline, user_id, priority_int)
-    )
+    'INSERT INTO tasks (name, deadline, user_id, priority) VALUES (?, ?, ?, ?)',
+    (name, deadline if deadline else None, user_id, priority_int)
+)
+
     conn.commit()
     last_id = cursor.lastrowid
     conn.close()

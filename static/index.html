@@ -22,7 +22,7 @@
 
   <form id="taskForm">
   <input type="text" id="taskName" placeholder="Quest name" required />
-  <input type="text" id="deadline" placeholder="Deadline (optional)" />
+  <input type="date" id="deadline" name="deadline">
 
   <label for="prioritySelector" style="font-weight: 700; margin-top: 1rem; margin-bottom: 0.3rem; display: block;">
     Choose the quest priority:
@@ -43,7 +43,7 @@
   <ul id="taskList"></ul>
 
 
-<div id="author">Forged with care by Uğur Baştuğ</div>
+<div id="author">Forged with care by <em>Uğur Baştuğ</em></div>
 
 <div id="confirm-popup" class="hidden">
   <div class="popup-content">
@@ -55,11 +55,7 @@
   </div>
 </div>
 
-
-
-
 <script src="/static/script.js"></script>
-
 
 </body>
 </html>
