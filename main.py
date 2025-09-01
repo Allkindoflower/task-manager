@@ -3,13 +3,15 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from database import get_tasks_db, add_task_db, delete_task_db, toggle_task_status_db
 from models import AddedTask
+import os
 
 app = FastAPI()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @app.get("/")
 def home():
-    return FileResponse("static/index.html")
+    return FileResponse(os.path.join(BASE_DIR, "static", "index.html"))
 
 @app.get("/tasks")
 def read_tasks(user_id: str = Header(..., alias="X-User-ID")):

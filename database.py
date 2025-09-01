@@ -1,7 +1,9 @@
 import sqlite3
 from datetime import date
+import os
 
-DB_FILE = 'tasks.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILE = os.path.join(BASE_DIR, "tasks.db")
 
 # Adapter: Python date -> ISO string (for SQLite storage)
 def adapt_date(date_obj):
@@ -47,6 +49,8 @@ def get_tasks_db(user_id: str):
     tasks = []
     for row in rows:
         task = dict(row)
+        if isinstance(task["deadline"], date):
+            task["deadline"] = task["deadline"].isoformat()
         tasks.append(task)
 
     return tasks
