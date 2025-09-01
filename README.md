@@ -28,7 +28,7 @@ gamified, increasing the possibility of a user reusing the app again in the futu
 
 ## The "Quest Manager" in action
 
-![a screenshot of the task manager web app](image.png)
+<img width="786" height="895" alt="taskmanagerscreenshot" src="https://github.com/user-attachments/assets/a9b76a62-3b5a-46f1-b87c-b29bbc6939b6" />
 
 ## How to run
 
