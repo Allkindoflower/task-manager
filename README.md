@@ -1,4 +1,8 @@
-# Overview of my Task Manager
+# Task Manager
+
+A full-stack web application that gamifies task management by framing tasks as "quests." Built with FastAPI backend, SQLite database, and responsive frontend interface.
+
+## Overview
 
 - This is a web-app I made so users can easily set a task (quest) for themselves 
 - Optionally add a deadline, then select a priority and finally Add Quest button to save it in a database.
@@ -8,16 +12,18 @@
 
 The "Quest Manager" will welcome you to the web page, despite the project being labeled a task manager.
 I wanted a unique spin on the general "to-do" app concept, this way task setting is somewhat
-gamified, increasing the possibility of a user reusing the app again in the future.
+gamified, increasing the possibility of a user reusing the app in the future.
 
-## Stacks used
+## Tech stacks
 
 - Python 3.11.x+
 - FastAPI
-- pytest
-- Docker
 - uvicorn
 - SQLite
+
+**Development:**
+- pytest (testing)
+- Docker (containerization)
 
 ## Features
 
@@ -32,15 +38,15 @@ gamified, increasing the possibility of a user reusing the app again in the futu
 
 ## How to run
 
-1. Fork thy (the) repo via GitHub
-2. Navigate to your projects folder or its equivalent
-3. Clone the forked repo at https://github.com/YOUR-USERNAME/task-manager using a Git interface of your preference 
+-  Fork the repo via GitHubNavigate to your projects folder or its equivalent
+- Clone the forked repo at https://github.com/YOUR-USERNAME/task-manager using a Git interface of your preference
 (I use Git Bash: 'git clone <your forked repo link>')
-4. Navigate to project root
-5. Launch a terminal, then create & activate a Python environment 
+
+- Navigate to project root
+- Launch a terminal, then create & activate a Python environment 
 (highly recommended, double-check that you're on the correct venv)
-6. Install requirements: `pip install -r requirements.txt`  
-7. Start server: uvicorn main:app --reload
+- Install requirements: `pip install -r requirements.txt`  
+- Start server: uvicorn main:app --reload
 
 To test endpoints via Swagger UI, navigate to: http://127.0.0.1:8000/docs
 
