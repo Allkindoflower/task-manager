@@ -93,6 +93,48 @@ form > input[type="text"] {
   color: var(--text-primary);
   background: #2a2a42;
   transition: border-color 0.3s ease;
+  font-family: var(--font);
+}
+
+input[type="text"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #2a2a42;;
+  color: var(--text-primary);
+  font-family: var(--font);
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  font-size: 1.2rem;
+  width: 100%;
+  max-width: 600px;
+  cursor: pointer;
+  padding: 1rem 3rem 1rem 1.2rem; /* extra right padding for icon */
+}
+
+.date-field {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.date-field .calendar-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-2);
+  pointer-events: none;
+  font-size: 1.3rem;
+}
+
+.flatpickr-calendar {
+  background: #2a2a42;
+  border-radius: 12px;
+  border: 2px solid var(--accent-2);
+  color: var(--text-primary);
+  font-family: var(--font);
 }
 
 form > input[type="text"]:focus {

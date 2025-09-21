@@ -133,3 +133,15 @@ document.getElementById('taskForm').addEventListener('submit', async e => {
 
 // Initial fetch of tasks when page loads
 fetchTasks();
+
+document.addEventListener("DOMContentLoaded", function() {
+  flatpickr("#deadline", {
+    dateFormat: "d/m/Y",
+    altInput: true,
+    altFormat: "F j, Y",
+    allowInput: true,
+    onReady: function(selectedDates, dateStr, instance) {
+      instance.altInput.placeholder = "Set deadline";
+    }
+  });
+});
